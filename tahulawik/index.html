@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TAWALET — Tahu Walik Pedas Jeletot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #800020;
+            --burgundy: #800020;
+            --yellow: #f7c600;
+            --pink: #fce4ec;
+            --muted: #6b7280;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --card-radius: 12px;
+            --text-muted: #6b7280;
+            --bg: #f8f9fa;
+        }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body { 
+            box-sizing: border-box;
+            background: linear-gradient(180deg, var(--pink), #f8f9fa); 
+            color: var(--burgundy);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--burgundy), #a0002a);
+            color: white;
+            padding: 18px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 2px 10px rgba(128, 0, 32, 0.2);
+        }
+        .nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand h1 {
+            color: var(--yellow) !important;
+            font-family: 'Fredoka One', 'Comic Sans MS', cursive;
+            font-size: 32px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        .logo {
+            width: 44px; height: 44px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--yellow), #ffd700);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: var(--burgundy);
+            box-shadow: 0 4px 15px rgba(247, 198, 0, 0.3);
+        }
+        nav ul { list-style: none; display: flex; gap: 14px; }
+        nav a {
+            color: white; text-decoration: none; padding: 8px 12px;
+            border-radius: 8px; font-weight: 600; transition: 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        nav a:hover { background: rgba(255,255,255,0.1); }
+
+        .container { max-width: 1100px; margin: 26px auto; padding: 0 20px; }
+        .card {
+            background: white; border-radius: var(--card-radius);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+        h1 { margin-bottom: 8px; font-size: 28px; color: var(--burgundy); }
+        h2 { margin-bottom: 12px; color: var(--burgundy); }
+        h3 { margin-bottom: 10px; color: var(--burgundy); }
+        p.lead { margin-bottom: 14px; color: var(--text-muted); }
+
+        .btn {
+            background: var(--yellow);
+            border: none; padding: 10px 14px;
+            border-radius: 10px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--burgundy);
+            box-shadow: 0 4px 15px rgba(247, 198, 0, 0.2);
+        }
+        .btn:hover {
+            background: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(247, 198, 0, 0.3);
+        }
+        .btn-primary {
+            background: var(--burgundy);
+            color: white;
+            box-shadow: 0 4px 15px rgba(128, 0, 32, 0.2);
+        }
+        .btn-primary:hover {
+            background: #a0002a;
+            box-shadow: 0 6px 20px rgba(128, 0, 32, 0.3);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--burgundy), #a0002a);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(247, 198, 0, 0.1), rgba(255, 215, 0, 0.1));
+            z-index: 1;
+        }
+        .hero > * {
+            position: relative;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: 48px;
+            color: var(--yellow);
+            margin-bottom: 16px;
+            font-family: 'Fredoka One', cursive;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+        }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 24px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+        .product-card {
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+        .product-emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .product-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--burgundy);
+            margin: 12px 0;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--yellow);
+            color: var(--burgundy);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(247, 198, 0, 0.3);
+        }
+
+        .hidden { display: none !important; }
+        .section { min-height: 60vh; }
+
+        .admin-sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            min-height: calc(100vh - 80px);
+        }
+        .admin-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .admin-nav-item:hover,
+        .admin-nav-item.active {
+            background: var(--pink);
+            color: var(--burgundy);
+            border-left-color: var(--yellow);
+        }
+        .admin-nav-item span {
+            margin-right: 10px;
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        .admin-layout {
+            display: flex;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--card-radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .stat-icon {
+            font-size: 32px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--burgundy);
+        }
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .table th {
+            background: var(--pink);
+            font-weight: 600;
+            color: var(--burgundy);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-processing { background: #dbeafe; color: #1e40af; }
+        .status-completed { background: #d1fae5; color: #065f46; }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--burgundy);
+        }
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--yellow);
+            box-shadow: 0 0 0 3px rgba(247, 198, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--pink);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .qty-btn.minus {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .qty-btn.plus {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 16px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .admin-layout {
+                flex-direction: column;
+            }
+            .admin-sidebar {
+                width: 100%;
+                min-height: auto;
+            }
+        }
+
+        /* Admin navbar specific styles */
+        .admin-nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: nowrap;
+        }
+        
+        .admin-nav h1 {
+            font-size: clamp(18px, 4vw, 32px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 1;
+            min-width: 0;
+        }
+        
+        .admin-nav .btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-nav h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">🌶️</div>
+                <h1>TAWALET</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a onclick="showMainContent(); scrollToSection('hero')">Beranda</a></li>
+                    <li><a onclick="showMainContent(); scrollToSection('tentang')">Tentang</a></li>
+                    <li><a onclick="showMainContent(); scrollToSection('produk')">Produk</a></li>
+                    <li><a onclick="showSection('keranjang')" style="position: relative;">
+                        Keranjang
+                        <span id="cart-badge" class="cart-badge hidden">0</span>
+                    </a></li>
+                    <li><a onclick="showSection('kontak')">Kontak</a></li>
+                    <li><a onclick="showSection('admin')" class="btn">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div id="hero" class="hero">
+        <h1>🌶️ TAWALET</h1>
+        <p>Tahu Walik Pedes Jeletot yang Bikin Nagih!</p>
+        <p>Nikmati sensasi pedas yang menggigit dengan tahu walik crispy kami</p>
+    </div>
+
+
+
+    <!-- Tentang Section -->
+    <div id="tentang" style="padding: 60px 20px; background: var(--bg);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="font-size: 36px; margin-bottom: 20px; color: var(--burgundy);">Tentang TAWALET</h2>
+                <p style="font-size: 20px; color: var(--muted); max-width: 800px; margin: 0 auto;">
+                    Mengenal lebih dekat TAWALET (Tahu Walik Pedes Jeletot) dan cerita di balik kelezatannya
+                </p>
+            </div>
+            
+            <!-- Hero Image -->
+            <div class="card" style="text-align: center; margin-bottom: 30px;">
+                <svg width="300" height="200" viewBox="0 0 300 200" style="margin: 0 auto 20px;">
+                    <!-- Background -->
+                    <rect width="300" height="200" fill="#f7c600" rx="15"/>
+                    <!-- Plate -->
+                    <ellipse cx="150" cy="140" rx="120" ry="40" fill="#ffffff" stroke="#e5e5e5" stroke-width="2"/>
+                    <!-- TAWALET pieces -->
+                    <rect x="80" y="100" width="40" height="25" rx="5" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+                    <rect x="120" y="95" width="35" height="30" rx="5" fill="#A0522D" stroke="#654321" stroke-width="1"/>
+                    <rect x="160" y="105" width="45" height="20" rx="5" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+                    <rect x="210" y="100" width="38" height="28" rx="5" fill="#A0522D" stroke="#654321" stroke-width="1"/>
+                    <!-- Chili garnish -->
+                    <ellipse cx="90" cy="85" rx="3" ry="8" fill="#dc2626"/>
+                    <ellipse cx="180" cy="80" rx="3" ry="8" fill="#dc2626"/>
+                    <ellipse cx="220" cy="85" rx="3" ry="8" fill="#dc2626"/>
+                    <!-- Steam effect -->
+                    <path d="M100 90 Q105 80 100 70" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.7"/>
+                    <path d="M140 85 Q145 75 140 65" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.7"/>
+                    <path d="M190 90 Q195 80 190 70" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.7"/>
+                    <!-- Title -->
+                    <text x="150" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#800020">TAWALET</text>
+                    <text x="150" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#800020">Tahu Walik Pedes Jeletot</text>
+                </svg>
+                
+                <div class="grid grid-2" style="text-align: left; margin-top: 30px;">
+                    <div>
+                        <h3 style="font-size: 24px; margin-bottom: 15px; color: var(--burgundy);">🌶️ Tentang TAWALET</h3>
+                        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px; text-align: justify;">
+                            Tahu Walik Pedas Jeletot adalah camilan khas Nusantara yang unik dan menggugah selera, dibuat dari tahu kulit yang dibalik sehingga menghasilkan tekstur luar yang renyah dan bagian dalam yang lembut. Keistimewaan tahu ini terletak pada isian sambalnya yang pedas menyengat, hingga disebut "jeletot" karena sensasi pedasnya yang kuat mampu membuat siapa saja ketagihan.
+                        </p>
+                        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px; text-align: justify;">
+                            Perpaduan gurih dan pedas menjadikan Tahu Walik Pedas Jeletot sebagai pilihan favorit anak muda, terutama mahasiswa yang menyukai makanan praktis, murah, namun tetap penuh cita rasa. Dengan berbagai level kepedasan, mulai dari original hingga super pedas, camilan ini tidak hanya memanjakan lidah pecinta pedas, tetapi juga menghadirkan pengalaman kuliner yang seru.
+                        </p>
+                        <p style="font-size: 16px; line-height: 1.6; text-align: justify;">
+                            Lebih nikmat lagi, tahu walik ini disajikan bersama minuman segar seperti es teh manis, sehingga memberikan keseimbangan rasa yang pas antara pedas, gurih, dan segar. Setiap gigitan TAWALET memberikan tekstur crispy di luar dan lembut di dalam, dipadukan dengan bumbu pedas yang pas di lidah. Cocok dinikmati kapan saja, terutama saat santai bersama teman atau keluarga.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 24px; margin-bottom: 15px; color: var(--burgundy);">✨ Keunggulan Produk</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">🔥</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 2px;">Pedas Menggigit</p>
+                                    <p style="color: var(--muted); font-size: 14px;">Level pedas yang bikin nagih</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">✨</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 2px;">Crispy Fresh</p>
+                                    <p style="color: var(--muted); font-size: 14px;">Renyah di luar, lembut di dalam</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">❤️</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 2px;">Resep Rahasia</p>
+                                    <p style="color: var(--muted); font-size: 14px;">Bumbu spesial turun temurun</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cerita Brand -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3 style="font-size: 24px; margin-bottom: 20px; color: var(--burgundy); text-align: center;">📖 Cerita TAWALET</h3>
+                <div class="grid grid-2">
+                    <div>
+                        <h4 style="font-size: 18px; margin-bottom: 12px; color: var(--burgundy);">🌱 Awal Mula</h4>
+                        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px; text-align: justify;">
+                            TAWALET lahir dari ide sederhana mahasiswa Politeknik Negeri Lampung yang ingin menghadirkan camilan khas Nusantara dengan sentuhan baru. Tahu walik, yang berasal dari Banyumas, dipilih karena bentuknya unik—tahu kulit dibalik, diisi sambal, lalu digoreng hingga krispi. Tim usaha kemudian menambahkan sentuhan pedas "jeletot" agar sesuai dengan tren kuliner anak muda yang menyukai makanan ekstrem. Untuk melengkapi sensasi pedas ini, disajikan pula es teh manis segar dengan tambahan selasih, sehingga tercipta perpaduan rasa pedas-gurih yang seimbang dengan manis-segar. Kami mengembangkan formula tahu walik yang unik dengan bumbu pedas yang pas di lidah.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 18px; margin-bottom: 12px; color: var(--burgundy);">🔥 Misi Kami</h4>
+                        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 15px; text-align: justify;">
+                            TAWALET hadir bukan hanya untuk menyajikan camilan pedas yang lezat, tetapi juga untuk memberdayakan mahasiswa, mendukung UMKM lokal, dan melestarikan kuliner Nusantara dengan sentuhan modern. 🌶️🥤✨ Setiap TAWALET dibuat fresh dengan bahan-bahan pilihan untuk memastikan rasa dan kualitas terbaik.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nilai-nilai -->
+            <div class="card">
+                <h3 style="font-size: 24px; margin-bottom: 20px; color: var(--burgundy); text-align: center;">💎 Nilai-Nilai Kami</h3>
+                <div class="grid grid-3">
+                    <div style="text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">🌟</div>
+                        <h4 style="font-weight: bold; margin-bottom: 8px;">Kualitas</h4>
+                        <p style="color: var(--muted); font-size: 14px;">Selalu menggunakan bahan terbaik dan proses yang higienis</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">❤️</div>
+                        <h4 style="font-weight: bold; margin-bottom: 8px;">Kepuasan</h4>
+                        <p style="color: var(--muted); font-size: 14px;">Mengutamakan kepuasan pelanggan dalam setiap sajian</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">🚀</div>
+                        <h4 style="font-weight: bold; margin-bottom: 8px;">Inovasi</h4>
+                        <p style="color: var(--muted); font-size: 14px;">Terus berinovasi untuk menciptakan varian rasa baru</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Produk Section -->
+    <div id="produk" style="padding: 60px 20px;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="font-size: 36px; margin-bottom: 20px; color: var(--burgundy);">Produk TAWALET</h2>
+                <p style="font-size: 20px; color: var(--muted); max-width: 800px; margin: 0 auto;">
+                    Berbagai varian TAWALET dan minuman segar untuk menemani hari Anda
+                </p>
+            </div>
+
+            <!-- Menu Lengkap Section -->
+            <h2 style="text-align: center; font-size: 32px; margin-bottom: 30px; color: var(--burgundy);">🍽️ Menu Lengkap TAWALET</h2>
+
+            <div class="grid grid-3">
+                <!-- Paket Promo -->
+                <div class="card product-card">
+                    <div style="position: relative;">
+                        <img id="paket-promo-img" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Paket Promo - Tahu Walik + Es Teh Manis" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;" onerror="this.src='https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'; this.alt='Paket Promo TAWALET - Makanan dan Minuman';">
+                        <button onclick="changeProductImage('paket-promo')" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 14px;">📷</button>
+                    </div>
+                    <h3>Paket Promo</h3>
+                    <p class="lead">4 cup tahu walik pedas + 1 es teh manis segar - hemat banget!</p>
+                    <div class="product-price">Rp 24.000</div>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="addToCart('Paket Promo', 24000)" class="btn btn-primary" style="flex: 1;">
+                            Tambah ke Keranjang
+                        </button>
+                        <button onclick="buyNow('Paket Promo', 24000)" class="btn" style="flex: 1;">
+                            Beli Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tahu Walik -->
+                <div class="card product-card">
+                    <div style="position: relative;">
+                        <img id="tahu-walik-img" src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Tahu Walik Pedas" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;" onerror="this.src='https://images.unsplash.com/photo-1574484284002-952d92456975?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'; this.alt='Tahu Walik - Makanan Indonesia Pedas';">
+                        <button onclick="changeProductImage('tahu-walik')" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 14px;">📷</button>
+                    </div>
+                    <h3>Tahu Walik</h3>
+                    <p class="lead">Tahu walik dengan sambal pedas jeletot yang menggigit</p>
+                    <div class="product-price">Rp 5.000</div>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="addToCart('Tahu Walik', 5000)" class="btn btn-primary" style="flex: 1;">
+                            Tambah ke Keranjang
+                        </button>
+                        <button onclick="buyNow('Tahu Walik', 5000)" class="btn" style="flex: 1;">
+                            Beli Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Es Teh Manis -->
+                <div class="card product-card">
+                    <div style="position: relative;">
+                        <img id="es-teh-img" src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Es Teh Manis" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;" onerror="this.src='https://images.unsplash.com/photo-1571934811356-5cc061b6821f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'; this.alt='Es Teh Manis - Minuman Segar';">
+                        <button onclick="changeProductImage('es-teh')" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 14px;">📷</button>
+                    </div>
+                    <h3>Es Teh Manis</h3>
+                    <p class="lead">Minuman segar untuk meredakan pedas</p>
+                    <div class="product-price">Rp 3.000</div>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="addToCart('Es Teh Manis', 3000)" class="btn btn-primary" style="flex: 1;">
+                            Tambah ke Keranjang
+                        </button>
+                        <button onclick="buyNow('Es Teh Manis', 3000)" class="btn" style="flex: 1;">
+                            Beli Sekarang
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Keranjang Section -->
+    <div id="keranjang" class="section hidden">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 32px; margin-bottom: 30px;">Keranjang Belanja</h2>
+            <div class="card">
+                <div id="cart-items" style="margin-bottom: 20px;">
+                    <p style="text-align: center; color: var(--muted);">Keranjang masih kosong</p>
+                </div>
+                <div style="border-top: 2px solid #eee; padding-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <span style="font-size: 20px; font-weight: bold;">Total:</span>
+                        <span id="cart-total" style="font-size: 24px; font-weight: bold; color: var(--burgundy);">Rp 0</span>
+                    </div>
+                    <button id="checkout-btn" onclick="checkout()" class="btn btn-primary" style="width: 100%; font-size: 18px; padding: 15px;" disabled>
+                        🛒 Pesan via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontak Section -->
+    <div id="kontak" class="section hidden">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 32px; margin-bottom: 30px;">Hubungi Kami</h2>
+            <div class="card">
+                <div class="grid grid-2">
+                    <div>
+                        <h3 style="font-size: 24px; margin-bottom: 20px;">Informasi Kontak</h3>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">📍</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 4px;">Alamat:</p>
+                                    <p style="color: var(--muted);">Politeknik Negeri Lampung Rajabasa sebelah gedung S</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">📞</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 4px;">WhatsApp:</p>
+                                    <p style="color: var(--muted);">089505755222</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">⏰</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 4px;">Jam Buka:</p>
+                                    <p style="color: var(--muted);">Senin - Minggu: 10:00 - 22:00</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">📧</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 4px;">Email:</p>
+                                    <p style="color: var(--muted);">ptriiagr81@gmail.com</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">📱</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 4px;">Instagram:</p>
+                                    <p style="color: var(--muted);">@ptriiagr</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">🎵</span>
+                                <div>
+                                    <p style="font-weight: 600; margin-bottom: 4px;">TikTok:</p>
+                                    <p style="color: var(--muted);">@ptriiagr</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 24px; margin-bottom: 20px;">Kirim Pesan</h3>
+                        <form onsubmit="sendMessage(event)">
+                            <div class="form-group">
+                                <input type="text" placeholder="Nama" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea placeholder="Pesan" rows="4" class="form-input" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                Kirim Pesan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Section -->
+    <div id="admin" class="section hidden">
+        <div style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+            <div style="max-width: 400px; width: 100%;">
+                <div class="card" style="text-align: center;">
+                    <h2 style="font-size: 28px; margin-bottom: 20px;">Admin Login</h2>
+                    <div style="font-size: 60px; margin-bottom: 20px;">🔐</div>
+                    <form onsubmit="adminLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input id="admin-username" type="text" required class="form-input" placeholder="Masukkan username">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input id="admin-password" type="password" required class="form-input" placeholder="Masukkan password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 16px;">
+                            Login
+                        </button>
+                    </form>
+                    <p style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 16px;">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="section hidden">
+        <!-- Admin Navigation -->
+        <header>
+            <div class="admin-nav">
+                <h1 style="font-family: 'Fredoka One', cursive; color: var(--yellow); text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: 1px;">Admin Dashboard - TAWALET</h1>
+                <button onclick="adminLogout()" class="btn">
+                    🚪 Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Admin Sidebar & Content -->
+        <div class="admin-layout">
+            <!-- Sidebar -->
+            <div class="admin-sidebar">
+                <nav style="padding-top: 20px;">
+                    <a href="#" onclick="showAdminSection('dashboard')" class="admin-nav-item active">
+                        <span>📊</span> Dashboard
+                    </a>
+                    <a href="#" onclick="showAdminSection('produksi')" class="admin-nav-item">
+                        <span>🏭</span> Pelacakan Produksi
+                    </a>
+                    <a href="#" onclick="showAdminSection('pesanan')" class="admin-nav-item">
+                        <span>📦</span> Detail Pesanan
+                    </a>
+                    <a href="#" onclick="showAdminSection('inventory')" class="admin-nav-item">
+                        <span>📦</span> Kelola Inventory
+                    </a>
+                    <a href="#" onclick="showAdminSection('keuangan')" class="admin-nav-item">
+                        <span>💰</span> Keuangan
+                    </a>
+                    <a href="#" onclick="showAdminSection('penjualan')" class="admin-nav-item">
+                        <span>📈</span> Ringkasan Penjualan
+                    </a>
+                    <a href="#" onclick="showAdminSection('foto')" class="admin-nav-item">
+                        <span>📸</span> Kelola Foto Menu
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="admin-content">
+                <!-- Dashboard Overview -->
+                <div id="admin-dashboard-content" class="admin-section">
+                    <h2 style="font-size: 28px; margin-bottom: 30px;">📊 Dashboard Overview</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📦</div>
+                            <div>
+                                <div class="stat-label">Total Pesanan Hari Ini</div>
+                                <div class="stat-value">47</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div>
+                                <div class="stat-label">Pendapatan Hari Ini</div>
+                                <div class="stat-value">Rp 850K</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🌶️</div>
+                            <div>
+                                <div class="stat-label">TAWALET Terjual</div>
+                                <div class="stat-value">32</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🧊</div>
+                            <div>
+                                <div class="stat-label">Minuman Terjual</div>
+                                <div class="stat-value">28</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 20px;">Quick Actions</h3>
+                        <div class="grid grid-4">
+                            <button onclick="showAdminSection('pesanan')" class="btn btn-primary">
+                                Lihat Pesanan Baru
+                            </button>
+                            <button onclick="showAdminSection('inventory')" class="btn" style="background: #f59e0b; color: white;">
+                                Update Stok
+                            </button>
+                            <button onclick="showAdminSection('produksi')" class="btn" style="background: #10b981; color: white;">
+                                Produksi Hari Ini
+                            </button>
+                            <button onclick="showAdminSection('penjualan')" class="btn" style="background: #3b82f6; color: white;">
+                                Laporan Penjualan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pelacakan Produksi -->
+                <div id="admin-produksi-content" class="admin-section hidden">
+                    <h2 style="font-size: 28px; margin-bottom: 30px;">🏭 Pelacakan Produksi</h2>
+                    <div class="card" style="margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 20px;">Produksi Hari Ini</h3>
+                        <div class="grid grid-3">
+                            <div style="text-align: center;">
+                                <div style="font-size: 48px; margin-bottom: 10px;">🌶️</div>
+                                <h4 style="font-weight: bold; margin-bottom: 8px;">TAWALET Original</h4>
+                                <p style="font-size: 24px; font-weight: bold; color: var(--burgundy); margin-bottom: 4px;">50 porsi</p>
+                                <p style="font-size: 14px; color: var(--muted);">Target: 60 porsi</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 48px; margin-bottom: 10px;">🔥</div>
+                                <h4 style="font-weight: bold; margin-bottom: 8px;">TAWALET Extra Pedas</h4>
+                                <p style="font-size: 24px; font-weight: bold; color: var(--burgundy); margin-bottom: 4px;">30 porsi</p>
+                                <p style="font-size: 14px; color: var(--muted);">Target: 40 porsi</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 48px; margin-bottom: 10px;">🧊</div>
+                                <h4 style="font-weight: bold; margin-bottom: 8px;">Es Teh Manis</h4>
+                                <p style="font-size: 24px; font-weight: bold; color: var(--burgundy); margin-bottom: 4px;">80 gelas</p>
+                                <p style="font-size: 14px; color: var(--muted);">Target: 100 gelas</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 style="margin-bottom: 20px;">Status Produksi</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #d1fae5; border-radius: 8px;">
+                                <span>Persiapan Bahan Baku</span>
+                                <span class="status-badge status-completed">Selesai</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #fef3c7; border-radius: 8px;">
+                                <span>Proses Penggorengan</span>
+                                <span class="status-badge status-pending">Sedang Berjalan</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #f3f4f6; border-radius: 8px;">
+                                <span>Packaging</span>
+                                <span class="status-badge" style="background: #9ca3af; color: white;">Menunggu</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Pesanan -->
+                <div id="admin-pesanan-content" class="admin-section hidden">
+                    <h2 style="font-size: 28px; margin-bottom: 30px;">📦 Detail Pesanan</h2>
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3>Pesanan Terbaru</h3>
+                            <select class="form-select" style="width: auto;">
+                                <option>Semua Status</option>
+                                <option>Pending</option>
+                                <option>Diproses</option>
+                                <option>Selesai</option>
+                            </select>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID Pesanan</th>
+                                        <th>Pelanggan</th>
+                                        <th>Item</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders-table-body">
+                                    <!-- Orders will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kelola Inventory -->
+                <div id="admin-inventory-content" class="admin-section hidden">
+                    <h2 style="font-size: 28px; margin-bottom: 30px;">📦 Kelola Inventory</h2>
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <h3 style="margin-bottom: 20px;">Stok Bahan Baku</h3>
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Tahu</span>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span>150 pcs</span>
+                                        <span class="status-badge status-completed">Aman</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Cabai Rawit</span>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span>2 kg</span>
+                                        <span class="status-badge status-pending">Menipis</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Minyak Goreng</span>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span>5 liter</span>
+                                        <span class="status-badge status-completed">Aman</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Teh</span>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span>500 gram</span>
+                                        <span class="status-badge" style="background: #dc2626; color: white;">Habis</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <h3 style="margin-bottom: 20px;">Update Stok</h3>
+                            <form onsubmit="updateStock(event)">
+                                <div class="form-group">
+                                    <select class="form-select">
+                                        <option>Pilih Bahan</option>
+                                        <option>Tahu</option>
+                                        <option>Cabai Rawit</option>
+                                        <option>Minyak Goreng</option>
+                                        <option>Teh</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" placeholder="Jumlah" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-select">
+                                        <option>Tambah Stok</option>
+                                        <option>Kurangi Stok</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                    Update Stok
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Keuangan -->
+                <div id="admin-keuangan-content" class="admin-section hidden">
+                    <h2 style="font-size: 28px; margin-bottom: 30px;">💰 Keuangan</h2>
+                    <div class="grid grid-3" style="margin-bottom: 20px;">
+                        <div class="card" style="text-align: center;">
+                            <h3 style="font-size: 18px; margin-bottom: 10px;">Pendapatan Hari Ini</h3>
+                            <p style="font-size: 28px; font-weight: bold; color: #10b981;">Rp 850.000</p>
+                        </div>
+                        <div class="card" style="text-align: center;">
+                            <h3 style="font-size: 18px; margin-bottom: 10px;">Pengeluaran Hari Ini</h3>
+                            <p style="font-size: 28px; font-weight: bold; color: #dc2626;">Rp 320.000</p>
+                        </div>
+                        <div class="card" style="text-align: center;">
+                            <h3 style="font-size: 18px; margin-bottom: 10px;">Keuntungan Bersih</h3>
+                            <p style="font-size: 28px; font-weight: bold; color: #3b82f6;">Rp 530.000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 style="margin-bottom: 20px;">Rincian Transaksi</h3>
+                        <div style="overflow-x: auto;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>Jenis</th>
+                                        <th>Deskripsi</th>
+                                        <th>Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>14:30</td>
+                                        <td><span class="status-badge status-completed">Pemasukan</span></td>
+                                        <td>Penjualan TAWALET</td>
+                                        <td style="color: #10b981; font-weight: bold;">+Rp 45.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>13:15</td>
+                                        <td><span class="status-badge" style="background: #dc2626; color: white;">Pengeluaran</span></td>
+                                        <td>Beli Cabai Rawit</td>
+                                        <td style="color: #dc2626; font-weight: bold;">-Rp 25.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kelola Foto Menu -->
+                <div id="admin-foto-content" class="admin-section hidden">
+                    <h2 style="font-size: 28px; margin-bottom: 30px;">📸 Kelola Foto Menu</h2>
+                    
+                    <!-- Photo Upload Section -->
+                    <div class="card" style="margin-bottom: 30px; background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px dashed var(--yellow);">
+                        <div style="text-align: center;">
+                            <h3 style="color: var(--burgundy); margin-bottom: 15px;">📷 Upload Foto Menu Sendiri</h3>
+                            <p style="color: var(--muted); margin-bottom: 20px;">Tambahkan foto produk TAWALET Anda sendiri untuk tampilan yang lebih personal!</p>
+                            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                                <div>
+                                    <label for="paket-upload" class="btn" style="cursor: pointer; display: inline-block;">
+                                        📷 Upload Foto Paket Promo
+                                    </label>
+                                    <input type="file" id="paket-upload" accept="image/*" style="display: none;" onchange="uploadProductImage(this, 'paket-promo')">
+                                </div>
+                                <div>
+                                    <label for="tahu-upload" class="btn" style="cursor: pointer; display: inline-block;">
+                                        📷 Upload Foto Tahu Walik
+                                    </label>
+                                    <input type="file" id="tahu-upload" accept="image/*" style="display: none;" onchange="uploadProductImage(this, 'tahu-walik')">
+                                </div>
+                                <div>
+                                    <label for="esteh-upload" class="btn" style="cursor: pointer; display: inline-block;">
+                                        📷 Upload Foto Es Teh
+                                    </label>
+                                    <input type="file" id="esteh-upload" accept="image/*" style="display: none;" onchange="uploadProductImage(this, 'es-teh')">
+                                </div>
+                            </div>
+                            <p style="font-size: 12px; color: var(--muted); margin-top: 10px;">
+                                *Format yang didukung: JPG, PNG, WebP. Maksimal 5MB per foto.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Alternative JPG Links Section -->
+                    <div class="card" style="margin-bottom: 30px;">
+                        <h3 style="text-align: center; margin-bottom: 20px; color: var(--burgundy);">🔗 Atau Gunakan Link JPG Langsung</h3>
+                        <div class="grid grid-3">
+                            <div>
+                                <label class="form-label">Link JPG Paket Promo:</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="url" id="paket-link" class="form-input" placeholder="https://example.com/paket.jpg" style="flex: 1;">
+                                    <button onclick="setImageFromLink('paket-promo', 'paket-link')" class="btn">Set</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">Link JPG Tahu Walik:</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="url" id="tahu-link" class="form-input" placeholder="https://example.com/tahu.jpg" style="flex: 1;">
+                                    <button onclick="setImageFromLink('tahu-walik', 'tahu-link')" class="btn">Set</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">Link JPG Es Teh:</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="url" id="esteh-link" class="form-input" placeholder="https://example.com/esteh.jpg" style="flex: 1;">
+                                    <button onclick="setImageFromLink('es-teh', 'esteh-link')" class="btn">Set</button>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="text-align: center; font-size: 12px; color: var(--muted); margin-top: 15px;">
+                            💡 Tips: Gunakan link JPG dari Google Drive, Dropbox, atau hosting gambar lainnya. Pastikan link berakhiran .jpg atau .jpeg
+                        </p>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button onclick="resetAllImages()" class="btn" style="background: #6b7280; color: white;">
+                                🔄 Reset Semua Foto ke Default
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Current Photos Preview -->
+                    <div class="card">
+                        <h3 style="text-align: center; margin-bottom: 20px; color: var(--burgundy);">🖼️ Preview Foto Menu Saat Ini</h3>
+                        <div class="grid grid-3">
+                            <div style="text-align: center;">
+                                <h4 style="margin-bottom: 10px;">Paket Promo</h4>
+                                <img id="admin-paket-preview" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Paket Promo Preview" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e5e5;">
+                                <button onclick="changeProductImage('paket-promo')" class="btn" style="margin-top: 8px; font-size: 12px; padding: 6px 12px;">
+                                    📷 Ganti Foto
+                                </button>
+                            </div>
+                            <div style="text-align: center;">
+                                <h4 style="margin-bottom: 10px;">Tahu Walik</h4>
+                                <img id="admin-tahu-preview" src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Tahu Walik Preview" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e5e5;">
+                                <button onclick="changeProductImage('tahu-walik')" class="btn" style="margin-top: 8px; font-size: 12px; padding: 6px 12px;">
+                                    📷 Ganti Foto
+                                </button>
+                            </div>
+                            <div style="text-align: center;">
+                                <h4 style="margin-bottom: 10px;">Es Teh Manis</h4>
+                                <img id="admin-esteh-preview" src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Es Teh Preview" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e5e5;">
+                                <button onclick="changeProductImage('es-teh')" class="btn" style="margin-top: 8px; font-size: 12px; padding: 6px 12px;">
+                                    📷 Ganti Foto
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ringkasan Penjualan -->
+                <div id="admin-penjualan-content" class="admin-section hidden">
+                    <h2 style="font-size: 28px; margin-bottom: 30px;">📈 Ringkasan Penjualan</h2>
+                    
+                    <!-- Filter Dropdown -->
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>Filter Periode</h3>
+                            <select id="sales-filter" onchange="updateSalesChart()" class="form-select" style="width: auto;">
+                                <option value="harian">Harian</option>
+                                <option value="mingguan">Mingguan</option>
+                                <option value="bulanan">Bulanan</option>
+                                <option value="tahunan">Tahunan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="card" style="margin-bottom: 20px;">
+                        <canvas id="salesChart" width="400" height="200"></canvas>
+                    </div>
+
+                    <!-- Sales Summary -->
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <h3 style="margin-bottom: 20px;">Produk Terlaris</h3>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>🌶️ TAWALET Original</span>
+                                    <span style="font-weight: bold;">156 terjual</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>🧊 Es Teh Manis</span>
+                                    <span style="font-weight: bold;">134 terjual</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>🎉 Paket Combo</span>
+                                    <span style="font-weight: bold;">89 terjual</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>🔥 TAWALET Extra Pedas</span>
+                                    <span style="font-weight: bold;">67 terjual</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <h3 style="margin-bottom: 20px;">Statistik Penjualan</h3>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Total Transaksi</span>
+                                    <span style="font-weight: bold; color: #3b82f6;">342</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Rata-rata per Transaksi</span>
+                                    <span style="font-weight: bold; color: #10b981;">Rp 18.500</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Jam Tersibuk</span>
+                                    <span style="font-weight: bold; color: var(--burgundy);">19:00 - 21:00</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Pertumbuhan</span>
+                                    <span style="font-weight: bold; color: #10b981;">+15.3%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let cart = [];
+        let currentSection = 'beranda';
+        let currentAdminSection = 'dashboard';
+        let salesChart = null;
+        let orders = [
+            {
+                id: '#001',
+                customer: 'Budi Santoso',
+                items: '2x TAWALET Original, 1x Es Teh',
+                total: 38000,
+                status: 'processing',
+                timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+                phone: '081234567890'
+            },
+            {
+                id: '#002',
+                customer: 'Sari Dewi',
+                items: '1x Paket Combo',
+                total: 20000,
+                status: 'pending',
+                timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
+                phone: '081987654321'
+            }
+        ];
+        let orderCounter = 3;
+
+        // Scroll to section function
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Show section function (for cart, contact, admin)
+        function showSection(section) {
+            // Hide main content sections
+            document.getElementById('hero').style.display = 'none';
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('tentang').style.display = 'none';
+            document.getElementById('produk').style.display = 'none';
+            
+            // Hide all other sections
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            
+            // Show selected section
+            document.getElementById(section).classList.remove('hidden');
+            document.getElementById(section).classList.add('fade-in');
+            
+            currentSection = section;
+        }
+
+        // Show main content function
+        function showMainContent() {
+            // Show main content sections
+            document.getElementById('hero').style.display = 'block';
+            document.querySelector('.container').style.display = 'block';
+            document.getElementById('tentang').style.display = 'block';
+            document.getElementById('produk').style.display = 'block';
+            
+            // Hide other sections
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+        }
+
+        // Show admin section function
+        function showAdminSection(section) {
+            // Hide all admin sections
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+            
+            // Show selected admin section
+            document.getElementById(`admin-${section}-content`).classList.remove('hidden');
+            
+            // Update active nav item
+            document.querySelectorAll('.admin-nav-item').forEach(item => {
+                item.classList.remove('bg-red-50', 'text-red-600');
+            });
+            event.target.classList.add('bg-red-50', 'text-red-600');
+            
+            currentAdminSection = section;
+            
+            // Initialize chart if showing sales section
+            if (section === 'penjualan') {
+                setTimeout(() => initSalesChart(), 100);
+            }
+        }
+
+        // Add to cart function
+        function addToCart(name, price) {
+            // Check if it's Tahu Walik or Paket Promo product - show spice level selection
+            if (name === 'Tahu Walik' || name === 'Paket Promo') {
+                showSpiceLevelModal(name, price, 'cart');
+                return;
+            }
+            
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            
+            updateCartDisplay();
+            updateCartBadge();
+            
+            // Show success message
+            alert(`${name} berhasil ditambahkan ke keranjang!`);
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: var(--muted);">Keranjang masih kosong</p>';
+                cartTotal.textContent = 'Rp 0';
+                checkoutBtn.disabled = true;
+                return;
+            }
+            
+            let total = 0;
+            cartItems.innerHTML = '';
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <div>
+                        <h4 style="font-weight: 600; margin-bottom: 4px;">${item.name}</h4>
+                        <p style="color: var(--muted); font-size: 14px;">Rp ${item.price.toLocaleString()} x ${item.quantity}</p>
+                    </div>
+                    <div class="cart-controls">
+                        <button onclick="updateQuantity(${index}, -1)" class="qty-btn minus">-</button>
+                        <span style="font-weight: bold; min-width: 20px; text-align: center;">${item.quantity}</span>
+                        <button onclick="updateQuantity(${index}, 1)" class="qty-btn plus">+</button>
+                        <button onclick="removeFromCart(${index})" class="btn" style="background: #6b7280; color: white; font-size: 12px; padding: 6px 12px; margin-left: 8px;">Hapus</button>
+                    </div>
+                `;
+                cartItems.appendChild(itemDiv);
+            });
+            
+            cartTotal.textContent = `Rp ${total.toLocaleString()}`;
+            checkoutBtn.disabled = false;
+        }
+
+        // Update quantity
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            updateCartDisplay();
+            updateCartBadge();
+        }
+
+        // Remove from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+            updateCartBadge();
+        }
+
+        // Update cart badge
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove('hidden');
+                badge.classList.add('cart-count');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Global variable for quick order
+        let quickOrder = [];
+
+        // Buy now function - adds to quick order
+        function buyNow(name, price) {
+            // Check if it's Tahu Walik or Paket Promo product - show spice level selection
+            if (name === 'Tahu Walik' || name === 'Paket Promo') {
+                showSpiceLevelModal(name, price, 'quick');
+                return;
+            }
+            
+            const existingItem = quickOrder.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                quickOrder.push({ name, price, quantity: 1 });
+            }
+            
+            // Show quick order modal
+            showQuickOrderModal();
+            
+            // Show success message
+            alert(`${name} ditambahkan ke pesanan cepat!\n\nAnda bisa menambah produk lain atau langsung pesan via WhatsApp.`);
+        }
+
+        // Show spice level selection modal
+        function showSpiceLevelModal(productName, basePrice, orderType) {
+            let modal = document.getElementById('spice-level-modal');
+            if (!modal) {
+                // Create modal if it doesn't exist
+                modal = document.createElement('div');
+                modal.id = 'spice-level-modal';
+                modal.innerHTML = `
+                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+                        <div style="background: white; border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3 id="modal-title" style="font-size: 24px; color: var(--burgundy);">🌶️ Pilih Level Kepedasan</h3>
+                                <button onclick="closeSpiceLevelModal()" style="background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
+                            </div>
+                            <p id="modal-description" style="text-align: center; color: var(--muted); margin-bottom: 25px;">
+                                Pilih level kepedasan TAWALET sesuai selera Anda!
+                            </p>
+                            <div id="spice-options-container" style="display: flex; flex-direction: column; gap: 15px;">
+                                <!-- Options will be populated by JavaScript based on product type -->
+                            </div>
+                            <div style="text-align: center; margin-top: 20px;">
+                                <p id="modal-tips" style="font-size: 12px; color: var(--muted);">
+                                    💡 Tips: Mulai dari Original jika baru pertama kali mencoba!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                
+                // Add hover effects
+                const style = document.createElement('style');
+                style.textContent = `
+                    .spice-option:hover {
+                        border-color: var(--yellow) !important;
+                        background: var(--pink) !important;
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 15px rgba(247, 198, 0, 0.2);
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Store current selection data
+            window.currentSpiceSelection = { 
+                productName, 
+                basePrice, 
+                orderType 
+            };
+            
+            // Populate options based on product type
+            populateSpiceOptions(productName, basePrice);
+            
+            modal.style.display = 'flex';
+        }
+
+        // Populate spice options based on product type
+        function populateSpiceOptions(productName, basePrice) {
+            const container = document.getElementById('spice-options-container');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            const modalTips = document.getElementById('modal-tips');
+            
+            if (productName === 'Tahu Walik') {
+                // Single Tahu Walik options
+                modalTitle.textContent = '🌶️ Pilih Level Kepedasan';
+                modalDescription.textContent = 'Pilih level kepedasan TAWALET sesuai selera Anda!';
+                modalTips.textContent = '💡 Tips: Mulai dari Original jika baru pertama kali mencoba!';
+                
+                container.innerHTML = `
+                    <div onclick="selectSpiceLevel('Original', 0)" class="spice-option" style="border: 2px solid #e5e5e5; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px;">
+                        <div style="font-size: 32px;">😋</div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: var(--burgundy);">TAWALET Original</h4>
+                            <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">Pedas ringan, cocok untuk pemula</p>
+                            <p style="font-weight: bold; color: #10b981;">Rp 5.000</p>
+                        </div>
+                        <div style="color: #10b981; font-size: 20px;">⭐</div>
+                    </div>
+                    <div onclick="selectSpiceLevel('Pedas', 1000)" class="spice-option" style="border: 2px solid #e5e5e5; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px;">
+                        <div style="font-size: 32px;">🔥</div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: var(--burgundy);">TAWALET Pedas</h4>
+                            <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">Pedas sedang, untuk yang suka tantangan</p>
+                            <p style="font-weight: bold; color: #f59e0b;">Rp 6.000</p>
+                        </div>
+                        <div style="color: #f59e0b; font-size: 20px;">⭐⭐</div>
+                    </div>
+                    <div onclick="selectSpiceLevel('Pedas Gila', 2000)" class="spice-option" style="border: 2px solid #e5e5e5; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px;">
+                        <div style="font-size: 32px;">💀</div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: var(--burgundy);">TAWALET Pedas Gila</h4>
+                            <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">Pedas ekstrem! Hanya untuk yang berani</p>
+                            <p style="font-weight: bold; color: #dc2626;">Rp 7.000</p>
+                        </div>
+                        <div style="color: #dc2626; font-size: 20px;">⭐⭐⭐</div>
+                    </div>
+                `;
+            } else if (productName === 'Paket Promo') {
+                // Paket Promo options
+                modalTitle.textContent = '🎉 Pilih Varian Paket Promo';
+                modalDescription.textContent = 'Pilih kombinasi level kepedasan untuk 4 cup TAWALET + 1 es teh manis!';
+                modalTips.textContent = '💡 Tips: Paket Mix cocok untuk berbagi dengan teman yang punya selera pedas berbeda!';
+                
+                container.innerHTML = `
+                    <div onclick="selectSpiceLevel('Original', 0)" class="spice-option" style="border: 2px solid #e5e5e5; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px;">
+                        <div style="font-size: 32px;">😋</div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: var(--burgundy);">Paket Original</h4>
+                            <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">4 cup TAWALET Original + 1 es teh manis</p>
+                            <p style="font-weight: bold; color: #10b981;">Rp 24.000</p>
+                        </div>
+                        <div style="color: #10b981; font-size: 20px;">⭐</div>
+                    </div>
+                    <div onclick="selectSpiceLevel('Pedas', 4000)" class="spice-option" style="border: 2px solid #e5e5e5; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px;">
+                        <div style="font-size: 32px;">🔥</div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: var(--burgundy);">Paket Pedas</h4>
+                            <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">4 cup TAWALET Pedas + 1 es teh manis</p>
+                            <p style="font-weight: bold; color: #f59e0b;">Rp 28.000</p>
+                        </div>
+                        <div style="color: #f59e0b; font-size: 20px;">⭐⭐</div>
+                    </div>
+                    <div onclick="selectSpiceLevel('Pedas Gila', 8000)" class="spice-option" style="border: 2px solid #e5e5e5; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px;">
+                        <div style="font-size: 32px;">💀</div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: var(--burgundy);">Paket Pedas Gila</h4>
+                            <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">4 cup TAWALET Pedas Gila + 1 es teh manis</p>
+                            <p style="font-weight: bold; color: #dc2626;">Rp 32.000</p>
+                        </div>
+                        <div style="color: #dc2626; font-size: 20px;">⭐⭐⭐</div>
+                    </div>
+                    <div onclick="selectSpiceLevel('Mix', 2000)" class="spice-option" style="border: 2px solid #e5e5e5; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px;">
+                        <div style="font-size: 32px;">🌈</div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: var(--burgundy);">Paket Mix</h4>
+                            <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">1 Original + 2 Pedas + 1 Pedas Gila + 1 es teh</p>
+                            <p style="font-weight: bold; color: #8b5cf6;">Rp 26.000</p>
+                        </div>
+                        <div style="color: #8b5cf6; font-size: 20px;">🌟</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Select spice level
+        function selectSpiceLevel(spiceLevel, extraPrice) {
+            const selection = window.currentSpiceSelection;
+            const finalPrice = selection.basePrice + extraPrice;
+            const fullProductName = `${selection.productName} ${spiceLevel}`;
+            
+            // Add to appropriate cart/order
+            if (selection.orderType === 'cart') {
+                const existingItem = cart.find(item => item.name === fullProductName);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ 
+                        name: fullProductName, 
+                        price: finalPrice, 
+                        quantity: 1,
+                        spiceLevel: spiceLevel
+                    });
+                }
+                
+                updateCartDisplay();
+                updateCartBadge();
+                
+                // Show success message
+                alert(`${fullProductName} berhasil ditambahkan ke keranjang!\n\nHarga: Rp ${finalPrice.toLocaleString()}`);
+                
+            } else if (selection.orderType === 'quick') {
+                const existingItem = quickOrder.find(item => item.name === fullProductName);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    quickOrder.push({ 
+                        name: fullProductName, 
+                        price: finalPrice, 
+                        quantity: 1,
+                        spiceLevel: spiceLevel
+                    });
+                }
+                
+                // Show quick order modal
+                showQuickOrderModal();
+                
+                // Show success message
+                alert(`${fullProductName} ditambahkan ke pesanan cepat!\n\nHarga: Rp ${finalPrice.toLocaleString()}\n\nAnda bisa menambah produk lain atau langsung pesan via WhatsApp.`);
+            }
+            
+            closeSpiceLevelModal();
+        }
+
+        // Close spice level modal
+        function closeSpiceLevelModal() {
+            const modal = document.getElementById('spice-level-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Show quick order modal
+        function showQuickOrderModal() {
+            let modal = document.getElementById('quick-order-modal');
+            if (!modal) {
+                // Create modal if it doesn't exist
+                modal = document.createElement('div');
+                modal.id = 'quick-order-modal';
+                modal.innerHTML = `
+                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+                        <div style="background: white; border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3 style="font-size: 24px; color: var(--burgundy);">🛒 Pesanan Cepat</h3>
+                                <button onclick="closeQuickOrderModal()" style="background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
+                            </div>
+                            <div id="quick-order-items" style="margin-bottom: 20px;"></div>
+                            <div style="border-top: 2px solid #eee; padding-top: 20px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <span style="font-size: 18px; font-weight: bold;">Total:</span>
+                                    <span id="quick-order-total" style="font-size: 20px; font-weight: bold; color: var(--burgundy);">Rp 0</span>
+                                </div>
+                                <div style="display: flex; gap: 12px;">
+                                    <button onclick="continueShoppingQuick()" class="btn" style="flex: 1;">
+                                        Tambah Produk Lain
+                                    </button>
+                                    <button onclick="checkoutQuickOrder()" class="btn btn-primary" style="flex: 1;">
+                                        Pesan via WhatsApp
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+            
+            updateQuickOrderDisplay();
+            modal.style.display = 'flex';
+        }
+
+        // Update quick order display
+        function updateQuickOrderDisplay() {
+            const quickOrderItems = document.getElementById('quick-order-items');
+            const quickOrderTotal = document.getElementById('quick-order-total');
+            
+            if (quickOrder.length === 0) {
+                quickOrderItems.innerHTML = '<p style="text-align: center; color: var(--muted);">Belum ada produk dipilih</p>';
+                quickOrderTotal.textContent = 'Rp 0';
+                return;
+            }
+            
+            let total = 0;
+            quickOrderItems.innerHTML = '';
+            
+            quickOrder.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <div>
+                        <h4 style="font-weight: 600; margin-bottom: 4px;">${item.name}</h4>
+                        <p style="color: var(--muted); font-size: 14px;">Rp ${item.price.toLocaleString()} x ${item.quantity}</p>
+                    </div>
+                    <div class="cart-controls">
+                        <button onclick="updateQuickQuantity(${index}, -1)" class="qty-btn minus">-</button>
+                        <span style="font-weight: bold; min-width: 20px; text-align: center;">${item.quantity}</span>
+                        <button onclick="updateQuickQuantity(${index}, 1)" class="qty-btn plus">+</button>
+                        <button onclick="removeFromQuickOrder(${index})" class="btn" style="background: #6b7280; color: white; font-size: 12px; padding: 6px 12px; margin-left: 8px;">Hapus</button>
+                    </div>
+                `;
+                quickOrderItems.appendChild(itemDiv);
+            });
+            
+            quickOrderTotal.textContent = `Rp ${total.toLocaleString()}`;
+        }
+
+        // Update quick order quantity
+        function updateQuickQuantity(index, change) {
+            quickOrder[index].quantity += change;
+            
+            if (quickOrder[index].quantity <= 0) {
+                quickOrder.splice(index, 1);
+            }
+            
+            updateQuickOrderDisplay();
+        }
+
+        // Remove from quick order
+        function removeFromQuickOrder(index) {
+            quickOrder.splice(index, 1);
+            updateQuickOrderDisplay();
+        }
+
+        // Close quick order modal
+        function closeQuickOrderModal() {
+            const modal = document.getElementById('quick-order-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Continue shopping from quick order
+        function continueShoppingQuick() {
+            closeQuickOrderModal();
+            showMainContent();
+            scrollToSection('produk');
+        }
+
+        // Checkout quick order
+        function checkoutQuickOrder() {
+            if (quickOrder.length === 0) return;
+            
+            // Show customer info modal for quick order
+            closeQuickOrderModal();
+            showCustomerInfoModal(quickOrder, 'quick');
+        }
+
+        // Checkout function
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            // Show customer info modal first
+            showCustomerInfoModal(cart, 'cart');
+        }
+
+        // Show customer info modal
+        function showCustomerInfoModal(orderItems, orderType) {
+            let modal = document.getElementById('customer-info-modal');
+            if (!modal) {
+                // Create modal if it doesn't exist
+                modal = document.createElement('div');
+                modal.id = 'customer-info-modal';
+                modal.innerHTML = `
+                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+                        <div style="background: white; border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3 style="font-size: 24px; color: var(--burgundy);">📝 Informasi Pelanggan</h3>
+                                <button onclick="closeCustomerInfoModal()" style="background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
+                            </div>
+                            <form id="customer-info-form" onsubmit="processOrder(event)">
+                                <div class="form-group">
+                                    <label class="form-label">Nama Lengkap *</label>
+                                    <input type="text" id="customer-name" required class="form-input" placeholder="Masukkan nama lengkap">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nomor WhatsApp *</label>
+                                    <input type="tel" id="customer-phone" required class="form-input" placeholder="08xxxxxxxxxx">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Alamat Pengiriman</label>
+                                    <textarea id="customer-address" class="form-input" rows="3" placeholder="Alamat lengkap (opsional)"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Catatan Pesanan</label>
+                                    <textarea id="order-notes" class="form-input" rows="2" placeholder="Catatan khusus (opsional)"></textarea>
+                                </div>
+                                <div style="border-top: 2px solid #eee; padding-top: 20px; margin-top: 20px;">
+                                    <div id="order-summary-modal" style="margin-bottom: 20px;"></div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                        <span style="font-size: 18px; font-weight: bold;">Total:</span>
+                                        <span id="modal-order-total" style="font-size: 20px; font-weight: bold; color: var(--burgundy);">Rp 0</span>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 16px;">
+                                        🛒 Konfirmasi Pesanan
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+            
+            // Store current order data
+            window.currentOrderData = { items: orderItems, type: orderType };
+            
+            // Update order summary in modal
+            updateOrderSummaryModal(orderItems);
+            modal.style.display = 'flex';
+        }
+
+        // Update order summary in modal
+        function updateOrderSummaryModal(orderItems) {
+            const summaryDiv = document.getElementById('order-summary-modal');
+            const totalSpan = document.getElementById('modal-order-total');
+            
+            let total = 0;
+            let summaryHTML = '<h4 style="margin-bottom: 12px; color: var(--burgundy);">Ringkasan Pesanan:</h4>';
+            
+            orderItems.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                summaryHTML += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;">
+                        <div>
+                            <span style="font-weight: 600;">${item.name}</span>
+                            <span style="color: var(--muted); font-size: 14px;"> x${item.quantity}</span>
+                        </div>
+                        <span style="font-weight: 600;">Rp ${itemTotal.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+            
+            summaryDiv.innerHTML = summaryHTML;
+            totalSpan.textContent = `Rp ${total.toLocaleString()}`;
+        }
+
+        // Process order
+        function processOrder(event) {
+            event.preventDefault();
+            
+            const customerName = document.getElementById('customer-name').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            const customerAddress = document.getElementById('customer-address').value;
+            const orderNotes = document.getElementById('order-notes').value;
+            
+            const orderData = window.currentOrderData;
+            const total = orderData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Create new order for admin system
+            const newOrder = {
+                id: `#${orderCounter.toString().padStart(3, '0')}`,
+                customer: customerName,
+                items: orderData.items.map(item => `${item.quantity}x ${item.name}`).join(', '),
+                total: total,
+                status: 'pending',
+                timestamp: new Date(),
+                phone: customerPhone,
+                address: customerAddress,
+                notes: orderNotes,
+                itemDetails: orderData.items
+            };
+            
+            // Add to orders array
+            orders.unshift(newOrder);
+            orderCounter++;
+            
+            // Update admin dashboard if visible
+            updateOrdersTable();
+            updateDashboardStats();
+            
+            // Create order summary for WhatsApp
+            let orderText = "🌶️ *PESANAN TAWALET* 🌶️\n\n";
+            orderText += `📋 *ID Pesanan:* ${newOrder.id}\n`;
+            orderText += `👤 *Nama:* ${customerName}\n`;
+            orderText += `📞 *WhatsApp:* ${customerPhone}\n`;
+            if (customerAddress) {
+                orderText += `📍 *Alamat:* ${customerAddress}\n`;
+            }
+            orderText += `\n*DETAIL PESANAN:*\n`;
+            
+            orderData.items.forEach(item => {
+                orderText += `• ${item.name}\n  Qty: ${item.quantity} x Rp ${item.price.toLocaleString()} = Rp ${(item.price * item.quantity).toLocaleString()}\n\n`;
+            });
+            
+            orderText += `*TOTAL: Rp ${total.toLocaleString()}*\n\n`;
+            
+            if (orderNotes) {
+                orderText += `📝 *Catatan:* ${orderNotes}\n\n`;
+            }
+            
+            orderText += "Mohon konfirmasi pesanan ini. Terima kasih! 🙏";
+            
+            // Encode for WhatsApp URL
+            const encodedText = encodeURIComponent(orderText);
+            const whatsappUrl = `https://wa.me/6289505755222?text=${encodedText}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            
+            // Show confirmation message
+            alert(`Pesanan ${newOrder.id} berhasil dibuat!\n\nTotal: Rp ${total.toLocaleString()}\n\nPesanan Anda akan dikirim ke WhatsApp dan otomatis masuk ke sistem admin untuk diproses.`);
+            
+            // Clear cart/quick order and close modal
+            if (orderData.type === 'cart') {
+                cart = [];
+                updateCartDisplay();
+                updateCartBadge();
+            } else {
+                quickOrder = [];
+                closeQuickOrderModal();
+            }
+            
+            closeCustomerInfoModal();
+        }
+
+        // Close customer info modal
+        function closeCustomerInfoModal() {
+            const modal = document.getElementById('customer-info-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                // Reset form
+                const form = document.getElementById('customer-info-form');
+                if (form) form.reset();
+            }
+        }
+
+        // Send message function
+        function sendMessage(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const nama = form.querySelector('input[type="text"]').value;
+            const email = form.querySelector('input[type="email"]').value;
+            const pesan = form.querySelector('textarea').value;
+            
+            // Create message for WhatsApp
+            let messageText = "📩 *PESAN DARI WEBSITE TAWALET* 📩\n\n";
+            messageText += `👤 *Nama:* ${nama}\n`;
+            messageText += `📧 *Email:* ${email}\n\n`;
+            messageText += `💬 *Pesan:*\n${pesan}\n\n`;
+            messageText += "Mohon dibalas ya. Terima kasih! 🙏";
+            
+            // Encode for WhatsApp URL
+            const encodedText = encodeURIComponent(messageText);
+            const whatsappUrl = `https://wa.me/6289505755222?text=${encodedText}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            
+            // Show confirmation and reset form
+            alert('Pesan Anda akan dikirim ke WhatsApp!\n\nSilakan lanjutkan melalui WhatsApp yang akan terbuka.');
+            form.reset();
+        }
+
+        // Admin login function
+        function adminLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            
+            // Simple demo authentication
+            if (username === 'admin' && password === 'admin123') {
+                document.getElementById('admin').classList.add('hidden');
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                alert('Login berhasil! Selamat datang di Admin Dashboard.');
+            } else {
+                alert('Username atau password salah!');
+            }
+        }
+
+        // Admin logout function
+        function adminLogout() {
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.getElementById('admin').classList.remove('hidden');
+            document.getElementById('admin-username').value = '';
+            document.getElementById('admin-password').value = '';
+            alert('Logout berhasil!');
+        }
+
+        // Update stock function
+        function updateStock(event) {
+            event.preventDefault();
+            alert('Stok berhasil diupdate!');
+            event.target.reset();
+        }
+
+        // Initialize sales chart
+        function initSalesChart() {
+            const ctx = document.getElementById('salesChart');
+            if (!ctx) return;
+            
+            // Destroy existing chart if it exists
+            if (salesChart) {
+                salesChart.destroy();
+            }
+            
+            salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                    datasets: [{
+                        label: 'Penjualan (Rp)',
+                        data: [650000, 590000, 800000, 810000, 560000, 950000, 870000],
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Grafik Penjualan Harian'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rp ' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update sales chart based on filter
+        function updateSalesChart() {
+            const filter = document.getElementById('sales-filter').value;
+            
+            if (!salesChart) return;
+            
+            let labels, data, title;
+            
+            switch(filter) {
+                case 'harian':
+                    labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+                    data = [650000, 590000, 800000, 810000, 560000, 950000, 870000];
+                    title = 'Grafik Penjualan Harian';
+                    break;
+                case 'mingguan':
+                    labels = ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'];
+                    data = [4500000, 5200000, 4800000, 5800000];
+                    title = 'Grafik Penjualan Mingguan';
+                    break;
+                case 'bulanan':
+                    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'];
+                    data = [18500000, 22000000, 19500000, 25000000, 23500000, 27000000];
+                    title = 'Grafik Penjualan Bulanan';
+                    break;
+                case 'tahunan':
+                    labels = ['2021', '2022', '2023', '2024'];
+                    data = [180000000, 220000000, 280000000, 320000000];
+                    title = 'Grafik Penjualan Tahunan';
+                    break;
+            }
+            
+            salesChart.data.labels = labels;
+            salesChart.data.datasets[0].data = data;
+            salesChart.options.plugins.title.text = title;
+            salesChart.update();
+        }
+
+        // Update orders table
+        function updateOrdersTable() {
+            const tbody = document.getElementById('orders-table-body');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                
+                let statusBadge = '';
+                let actionButton = '';
+                
+                switch(order.status) {
+                    case 'pending':
+                        statusBadge = '<span class="status-badge status-pending">Pending</span>';
+                        actionButton = `<button onclick="updateOrderStatus('${order.id}', 'processing')" class="btn" style="background: #3b82f6; color: white; font-size: 12px; padding: 6px 12px;">Proses</button>`;
+                        break;
+                    case 'processing':
+                        statusBadge = '<span class="status-badge status-processing">Diproses</span>';
+                        actionButton = `<button onclick="updateOrderStatus('${order.id}', 'completed')" class="btn" style="background: #10b981; color: white; font-size: 12px; padding: 6px 12px;">Selesai</button>`;
+                        break;
+                    case 'completed':
+                        statusBadge = '<span class="status-badge status-completed">Selesai</span>';
+                        actionButton = '<span style="color: #10b981; font-size: 12px;">✓ Selesai</span>';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>
+                        <div>
+                            <div style="font-weight: 600;">${order.customer}</div>
+                            <div style="font-size: 12px; color: var(--muted);">${order.phone}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="font-size: 14px;">${order.items}</div>
+                        ${order.notes ? `<div style="font-size: 12px; color: var(--muted); font-style: italic;">Catatan: ${order.notes}</div>` : ''}
+                    </td>
+                    <td style="font-weight: 600;">Rp ${order.total.toLocaleString()}</td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <div style="display: flex; gap: 4px; flex-direction: column;">
+                            ${actionButton}
+                            <button onclick="viewOrderDetail('${order.id}')" class="btn" style="background: #6b7280; color: white; font-size: 10px; padding: 4px 8px;">Detail</button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // Update order status
+        function updateOrderStatus(orderId, newStatus) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                updateOrdersTable();
+                updateDashboardStats();
+                
+                let statusText = '';
+                switch(newStatus) {
+                    case 'processing': statusText = 'diproses'; break;
+                    case 'completed': statusText = 'selesai'; break;
+                }
+                
+                alert(`Pesanan ${orderId} berhasil diubah ke status ${statusText}!`);
+            }
+        }
+
+        // View order detail
+        function viewOrderDetail(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            let detailText = `📋 DETAIL PESANAN ${order.id}\n\n`;
+            detailText += `👤 Pelanggan: ${order.customer}\n`;
+            detailText += `📞 WhatsApp: ${order.phone}\n`;
+            if (order.address) {
+                detailText += `📍 Alamat: ${order.address}\n`;
+            }
+            detailText += `📅 Waktu: ${order.timestamp.toLocaleString('id-ID')}\n`;
+            detailText += `💰 Total: Rp ${order.total.toLocaleString()}\n`;
+            detailText += `📊 Status: ${order.status}\n\n`;
+            
+            if (order.itemDetails) {
+                detailText += `📦 DETAIL ITEM:\n`;
+                order.itemDetails.forEach(item => {
+                    detailText += `• ${item.name} x${item.quantity} = Rp ${(item.price * item.quantity).toLocaleString()}\n`;
+                });
+            } else {
+                detailText += `📦 Item: ${order.items}\n`;
+            }
+            
+            if (order.notes) {
+                detailText += `\n📝 Catatan: ${order.notes}`;
+            }
+            
+            alert(detailText);
+        }
+
+        // Update dashboard stats
+        function updateDashboardStats() {
+            // Calculate today's stats
+            const today = new Date();
+            const todayOrders = orders.filter(order => {
+                const orderDate = new Date(order.timestamp);
+                return orderDate.toDateString() === today.toDateString();
+            });
+            
+            const todayRevenue = todayOrders.reduce((sum, order) => sum + order.total, 0);
+            const completedOrders = todayOrders.filter(order => order.status === 'completed').length;
+            
+            // Update stats if elements exist
+            const statsElements = {
+                totalOrders: document.querySelector('.stat-card:nth-child(1) .stat-value'),
+                revenue: document.querySelector('.stat-card:nth-child(2) .stat-value'),
+                tawalet: document.querySelector('.stat-card:nth-child(3) .stat-value'),
+                drinks: document.querySelector('.stat-card:nth-child(4) .stat-value')
+            };
+            
+            if (statsElements.totalOrders) {
+                statsElements.totalOrders.textContent = todayOrders.length;
+            }
+            if (statsElements.revenue) {
+                statsElements.revenue.textContent = `Rp ${Math.floor(todayRevenue / 1000)}K`;
+            }
+        }
+
+        // Upload product image function
+        function uploadProductImage(input, productId) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Format file tidak didukung! Gunakan JPG, PNG, atau WebP.');
+                return;
+            }
+            
+            // Validate file size (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Ukuran file terlalu besar! Maksimal 5MB.');
+                return;
+            }
+            
+            // Create FileReader to convert to base64
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Update main product image
+                const imgElement = document.getElementById(productId + '-img');
+                if (imgElement) {
+                    imgElement.src = e.target.result;
+                    imgElement.alt = `${productId} - Foto Custom`;
+                    
+                    // Add upload effect
+                    imgElement.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        imgElement.style.transform = 'scale(1)';
+                    }, 300);
+                }
+                
+                // Update admin preview image
+                const adminPreview = document.getElementById(`admin-${productId.replace('-', '')}-preview`);
+                if (adminPreview) {
+                    adminPreview.src = e.target.result;
+                    adminPreview.alt = `${productId} - Admin Preview`;
+                }
+                
+                // Store in localStorage for persistence
+                localStorage.setItem(`tawalet-${productId}-image`, e.target.result);
+                
+                // Show success message
+                alert(`✅ Foto ${getProductName(productId)} berhasil diupload!\n\nFoto akan tersimpan dan muncul setiap kali halaman dibuka.`);
+            };
+            reader.readAsDataURL(file);
+            
+            // Reset input
+            input.value = '';
+        }
+
+        // Change product image via button
+        function changeProductImage(productId) {
+            const inputId = getUploadInputId(productId);
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.click();
+            }
+        }
+
+        // Set image from URL link
+        function setImageFromLink(productId, inputId) {
+            const linkInput = document.getElementById(inputId);
+            const imageUrl = linkInput.value.trim();
+            
+            if (!imageUrl) {
+                alert('Masukkan link JPG terlebih dahulu!');
+                return;
+            }
+            
+            // Validate URL format
+            try {
+                new URL(imageUrl);
+            } catch {
+                alert('Format URL tidak valid! Pastikan dimulai dengan https://');
+                return;
+            }
+            
+            // Check if it's an image URL
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+            const hasImageExtension = imageExtensions.some(ext => 
+                imageUrl.toLowerCase().includes(ext)
+            );
+            
+            if (!hasImageExtension) {
+                const confirmUse = confirm('Link tidak berakhiran dengan format gambar (.jpg, .png, dll).\n\nTetap gunakan link ini?');
+                if (!confirmUse) return;
+            }
+            
+            // Test if image loads successfully
+            const testImg = new Image();
+            testImg.onload = function() {
+                // Update main product image
+                const imgElement = document.getElementById(productId + '-img');
+                if (imgElement) {
+                    imgElement.src = imageUrl;
+                    imgElement.alt = `${productId} - Foto dari Link`;
+                    
+                    // Add effect
+                    imgElement.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        imgElement.style.transform = 'scale(1)';
+                    }, 300);
+                }
+                
+                // Update admin preview image
+                const adminPreview = document.getElementById(`admin-${productId.replace('-', '')}-preview`);
+                if (adminPreview) {
+                    adminPreview.src = imageUrl;
+                    adminPreview.alt = `${productId} - Admin Preview`;
+                }
+                
+                // Store in localStorage
+                localStorage.setItem(`tawalet-${productId}-image`, imageUrl);
+                
+                // Clear input and show success
+                linkInput.value = '';
+                alert(`✅ Foto ${getProductName(productId)} berhasil diset dari link!\n\nFoto akan tersimpan dan muncul setiap kali halaman dibuka.`);
+            };
+            
+            testImg.onerror = function() {
+                alert('❌ Gagal memuat gambar dari link!\n\nPastikan:\n• Link dapat diakses publik\n• Format gambar didukung\n• Koneksi internet stabil');
+            };
+            
+            testImg.src = imageUrl;
+        }
+
+        // Helper function to get product name
+        function getProductName(productId) {
+            const names = {
+                'paket-promo': 'Paket Promo',
+                'tahu-walik': 'Tahu Walik',
+                'es-teh': 'Es Teh Manis'
+            };
+            return names[productId] || productId;
+        }
+
+        // Helper function to get upload input ID
+        function getUploadInputId(productId) {
+            const inputIds = {
+                'paket-promo': 'paket-upload',
+                'tahu-walik': 'tahu-upload',
+                'es-teh': 'esteh-upload'
+            };
+            return inputIds[productId];
+        }
+
+        // Load saved images from localStorage
+        function loadSavedImages() {
+            const productIds = ['paket-promo', 'tahu-walik', 'es-teh'];
+            
+            productIds.forEach(productId => {
+                const savedImage = localStorage.getItem(`tawalet-${productId}-image`);
+                if (savedImage) {
+                    // Update main product image
+                    const imgElement = document.getElementById(productId + '-img');
+                    if (imgElement) {
+                        imgElement.src = savedImage;
+                        imgElement.alt = `${productId} - Foto Custom`;
+                    }
+                    
+                    // Update admin preview image
+                    const adminPreview = document.getElementById(`admin-${productId.replace('-', '')}-preview`);
+                    if (adminPreview) {
+                        adminPreview.src = savedImage;
+                        adminPreview.alt = `${productId} - Admin Preview`;
+                    }
+                }
+            });
+        }
+
+        // Reset all images to default
+        function resetAllImages() {
+            if (confirm('Yakin ingin mengembalikan semua foto ke default?\n\nFoto custom yang sudah diupload akan hilang.')) {
+                const defaultImages = {
+                    'paket-promo': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+                    'tahu-walik': 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+                    'es-teh': 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+                };
+                
+                Object.keys(defaultImages).forEach(productId => {
+                    // Reset main product image
+                    const imgElement = document.getElementById(productId + '-img');
+                    if (imgElement) {
+                        imgElement.src = defaultImages[productId];
+                        imgElement.alt = getProductName(productId);
+                    }
+                    
+                    // Reset admin preview image
+                    const adminPreview = document.getElementById(`admin-${productId.replace('-', '')}-preview`);
+                    if (adminPreview) {
+                        adminPreview.src = defaultImages[productId];
+                        adminPreview.alt = `${productId} Preview`;
+                    }
+                    
+                    localStorage.removeItem(`tawalet-${productId}-image`);
+                });
+                
+                alert('✅ Semua foto berhasil direset ke default!');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            showMainContent();
+            // Load saved custom images
+            loadSavedImages();
+            // Initialize orders table if admin section is loaded
+            setTimeout(() => {
+                updateOrdersTable();
+                updateDashboardStats();
+            }, 100);
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, var(--burgundy), #a0002a); color: white; padding: 30px 20px; margin-top: 60px;">
+        <div class="container">
+            <div style="text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px;">
+                  <div class="logo">🌶️</div>
+                    <h3 style="font-family: 'Fredoka One', cursive; color: var(--yellow); font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">TAWALET</h3>
+                </div>
+                <p style="color: rgba(255,255,255,0.8); margin-bottom: 16px;">
+                    Tahu Walik Pedes Jeletot yang bikin nagih!
+                </p>
+                <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 16px; flex-wrap: wrap;">
+                    <span style="color: rgba(255,255,255,0.7); font-size: 14px;">📞 089505755222</span>
+                    <span style="color: rgba(255,255,255,0.7); font-size: 14px;">📧 ptriiagr81@gmail.com</span>
+                    <span style="color: rgba(255,255,255,0.7); font-size: 14px;">📱 @ptriiagr</span>
+                </div>
+                <p style="color: rgba(255,255,255,0.6); font-size: 14px;">
+                    © 2024 TAWALET. Dibuat dengan ❤️ untuk pecinta pedas Indonesia
+                </p>
+            </div>
+        </div>
+    </footer>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9891c79cf56c81c2',t:'MTc1OTU1MDUwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
